@@ -43,7 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     """
     first_name = models.CharField(verbose_name='Имя', max_length=255)
     last_name = models.CharField(verbose_name='Фамилия', max_length=255)
-    age = models.CharField(verbose_name='Дата рождения', max_length=20)
+    age = models.CharField(verbose_name='Возраст', max_length=20)
     gender = models.CharField(verbose_name='Пол', max_length=20, choices=GENDER_CHOICES)
     avatar = models.ImageField(verbose_name='Фото', upload_to=upload_instance)
     email = models.EmailField(verbose_name='Почта', max_length=60, unique=True)
