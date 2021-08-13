@@ -3,6 +3,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework.generics import (
     ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView,
 )
+from django.core.mail import send_mail
+
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -37,7 +39,7 @@ class UserAuthView(APIView):
         return Response(data={'token': user_token.key}, status=status.HTTP_200_OK)
 
 
-class UsersListAPIView(ListCreateAPIView):
+class UsersListAPIView(generics.ListCreateAPIView):
     permission_classes = (AllowAny,)
     queryset = User.objects.filter(is_active=True)
 
@@ -53,6 +55,11 @@ class UsersListAPIView(ListCreateAPIView):
         instance = serializer.save()
         instance.set_password(serializer.validated_data.get('password'))
         instance.save()
+
+    # def perform_create(self, serializer):
+    #     created_object = serializer.save()
+    #     send_mail('Subject here', 'Here is the message.', 'from@example.com',
+    #         [created_object.email],  fail_silently=False,)
 
 
 class UserRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
@@ -73,25 +80,4 @@ class RegisterAPIView(generics.CreateAPIView):
         instance = serializer.save()
         instance.set_password(serializer.validated_data.get('password'))
         instance.save()
-#
-# @api_view(['GET'])
-# def comments_list(request):
-#
-#     comments = Comment.objects.all()
-#
-#     serializer = CommentSerializer(comments, many=True)
-#
-#     return Response(serializer.data, status=status.HTTP_200_OK)
 
-
-# @api_view(['GET', 'PUT', 'DELETE'])
-# def comment_detail(request, pk):
-#
-#     try:
-#         comment = Comment.objects.get(pk=pk)
-#     except Comment.DoesNotExist:
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-#
-#     if request.method == 'GET':
-#         serializer = CommentSerializer(instance=comment)
-#         return Response(serializer.data)

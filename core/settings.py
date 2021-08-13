@@ -23,7 +23,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'youremail@gmail.com'
+# EMAIL_HOST_PASSWORD = 'yourpassword'
+# EMAIL_PORT = 587
 # Application definition
 
 
@@ -39,13 +43,15 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 
     'apps.users',
+    'apps.groups',
+    'apps.events',
 ]
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
