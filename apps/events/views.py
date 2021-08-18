@@ -1,16 +1,19 @@
 import json
 
+import django_filters
+from django.db import models as django_models
 from django.http import JsonResponse
 from django.views.generic import DetailView
-from rest_framework import status
+from rest_framework import status, filters, viewsets
 from rest_framework.decorators import api_view
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
 from apps.events.models import Event
 from apps.events.serializers import EventDetailSerializer, EventSerializer, CommentSerializer
-from apps.events.models import Group, Comment
+from apps.events.models import Comment
 
 
 class EventDetailView(DetailView):
@@ -43,12 +46,28 @@ class EventDetailView(DetailView):
         return JsonResponse({'detail': 'success'}, status=201)
 
 
-class EventCreateAPIView(ListCreateAPIView):
+class EventFilter(django_filters.FilterSet):
+    event_datetime = django_filters.DateTimeFilter(name="event_datetime", lookup_type="gte")
+
+    class Meta:
+        model = Event
+        fields = ['event_date', 'event_time']
+
+
+class EventListViewSet(viewsets.ModelViewSet):
+    serializer_class = EventSerializer
+    queryset = Event.objects.all()
+    filter_class = EventFilter
+    filter_backends = (SearchFilter, OrderingFilter)
+    search_fields = ['=name', '=group']
+
+
+class EventListCreateAPIView(ListCreateAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
     def filter_queryset(self, queryset):
-        queryset = super(EventCreateAPIView, self).filter_queryset(queryset)
+        queryset = super(EventListCreateAPIView, self).filter_queryset(queryset)
         name = self.request.query_params.get('name')
 
         if name:
@@ -59,7 +78,7 @@ class EventCreateAPIView(ListCreateAPIView):
 
 class EventRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Event.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     serializer_class = EventDetailSerializer
 
 

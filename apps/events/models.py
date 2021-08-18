@@ -1,7 +1,6 @@
-from datetime import time, datetime
+from time import timezone
 
 from django.db import models
-
 from apps.groups.models import Group
 from apps.users.models import User
 from utils.uploads import upload_instance
@@ -19,8 +18,8 @@ class Event(models.Model):
     name = models.CharField(verbose_name='Название', max_length=255)
     location = models.CharField(verbose_name='Локация', max_length=255)
     description = models.TextField(verbose_name='Описание')
-    event_date = models.DateField(verbose_name='Дата')
-    event_time = models.TimeField(verbose_name='Время', null=True)
+    event_date = models.DateField(verbose_name='Дата', auto_now=False)
+    event_time = models.TimeField(verbose_name='Время', auto_now=False, null=True)
     pictures = models.ImageField(upload_to=upload_instance, null=True, verbose_name="Картинки")
     active = models.CharField(verbose_name='Ваш ответ', max_length=20, choices=answer_choices, default=True)
 

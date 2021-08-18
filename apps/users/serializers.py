@@ -1,9 +1,11 @@
 from django.contrib.auth.password_validation import validate_password
+from django.core.mail import send_mail
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, Serializer
 from rest_framework.validators import UniqueValidator
 
 from apps.users.models import User
+from core import settings
 
 
 class AuthSerializer(Serializer):
@@ -68,5 +70,7 @@ class RegisterSerializer(ModelSerializer):
 
         user.set_password(validated_data['password'])
         user.save()
-
         return user
+
+    def email_user(self, subject, message, from_email=settings.DEFAULT_FROM_EMAIL, **kwargs):
+        send_mail(subject, message, from_email, [self.email], fail_silently=False, **kwargs)

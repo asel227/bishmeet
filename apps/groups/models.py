@@ -16,7 +16,6 @@ class Category(models.Model):
 
 
 class Group(models.Model):
-    objects = None
     name = models.CharField(verbose_name='Название', max_length=255)
     description = models.TextField(verbose_name='Описание')
     category = models.ForeignKey(Category,
@@ -51,21 +50,3 @@ class Rating(models.Model):
     def __str__(self):
         return f'Группа: {self.group.name}, статистика: {self.start}'
 
-
-class Comment(models.Model):
-    text = models.TextField(verbose_name='Текст')
-    group = models.ForeignKey(to=Group,
-                              on_delete=models.CASCADE,
-                              related_name='group_comments')
-    user = models.ForeignKey(to=User,
-                             on_delete=models.SET_NULL,
-                             related_name='user_comments',
-                             null=True)
-    create_at = models.DateTimeField(auto_now_add=True, null=True)
-
-    class Meta:
-        verbose_name = 'Комментарий'
-        verbose_name_plural = 'Комментарии'
-
-    def __str__(self):
-        return f'{self.text[:100]}...'
