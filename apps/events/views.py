@@ -21,13 +21,13 @@ class EventListViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
     queryset = Event.objects.all()
     filter_class = EventFilter
-    filter_backends = (SearchFilter, OrderingFilter)
-    search_fields = ['=name', 'event_date', 'event_time']
 
 
 class EventListCreateAPIView(ListCreateAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    filter_backends = (SearchFilter, OrderingFilter)
+    search_fields = ['=name', '=event_date', '=event_time']
 
     def filter_queryset(self, queryset):
         queryset = super(EventListCreateAPIView, self).filter_queryset(queryset)
