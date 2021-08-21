@@ -28,22 +28,3 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
-
-
-# class Comment(models.Model):
-#     text = models.TextField(verbose_name='Текст')
-#     event = models.ForeignKey(to=Event,
-#                               on_delete=models.CASCADE,
-#                               related_name='events_comments')
-#     user = models.ForeignKey(to=User,
-#                              on_delete=models.SET_NULL,
-#                              related_name='users_comments',
-#                              null=True)
-#     create_at = models.DateTimeField(auto_now_add=True, null=True)
-#
-#     class Meta:
-#         verbose_name = 'Комментарий'
-#         verbose_name_plural = 'Комментарии'
-#
-#     def __str__(self):
-#         return f'{self.text[:100]}...'
