@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.groups.models import Group, Category, Rating
+from apps.groups.models import Group, Category
 
 
 @admin.register(Category)
@@ -11,8 +11,3 @@ class GroupAdmin(admin.ModelAdmin):
 @admin.register(Group)
 class GroupAdmin(admin.ModelAdmin):
     list_display = ['name', 'description', 'category', 'interests', 'pictures']
-
-
-@admin.register(Rating)
-class RatingAdmin(admin.ModelAdmin):
-    list_display = ['start', 'group', 'user']

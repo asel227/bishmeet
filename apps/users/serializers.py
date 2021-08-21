@@ -12,6 +12,10 @@ class AuthSerializer(Serializer):
     email = serializers.EmailField(max_length=60)
     password = serializers.CharField(max_length=128)
 
+#
+# class PasswordSerializer (PasswordResetSerializer):
+#     password_reset_form_class = ResetPasswordForm
+
 
 class UsersListSerializer(ModelSerializer):
 
@@ -19,16 +23,6 @@ class UsersListSerializer(ModelSerializer):
         model = User
         fields = (
             'id', 'first_name', 'last_name', 'age', 'gender', 'email', 'is_active'
-        )
-
-
-class UsersCreateSerializer(ModelSerializer):
-
-    class Meta:
-        model = User
-        fields = (
-            'id', 'first_name', 'last_name', 'age', 'gender', 'get_avatar'
-            'email', 'is_active', 'password'
         )
 
 

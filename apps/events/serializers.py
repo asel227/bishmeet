@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from apps.events.models import Comment, Rating, Event
+from apps.events.models import Event
 
 
 class EventSerializer(ModelSerializer):
@@ -19,14 +19,9 @@ class EventDetailSerializer(ModelSerializer):
             'event_date', 'event_time', 'pictures', 'active'
         )
 
+#
+# class CommentSerializer(ModelSerializer):
+#     class Meta:
+#         model = Comment
+#         fields = '__all__'
 
-class CommentSerializer(ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = '__all__'
-
-
-class RatingSerializer(ModelSerializer):
-    class Meta:
-        model = Rating
-        fields = '__all__'

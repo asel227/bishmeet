@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from apps.groups.models import Category, Group, Rating
+from apps.groups.models import Category, Group
 
 
 class CategorySerializer(ModelSerializer):
@@ -30,9 +30,3 @@ class GroupDetailSerializer(ModelSerializer):
             'id', 'name', 'description', 'category_id',
             'category', 'pictures', 'file'
         )
-
-
-class RatingSerializer(ModelSerializer):
-    class Meta:
-        model = Rating
-        fields = '__all__'

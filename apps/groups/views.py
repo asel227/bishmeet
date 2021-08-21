@@ -1,21 +1,18 @@
-import json
-
-from django.http import JsonResponse
-from django.views.generic import DetailView
+from django_filters import filters
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.views import APIView
-
-from apps.groups.models import Group, Rating
-from apps.groups.serializers import GroupSerializer, GroupDetailSerializer, RatingSerializer
+from apps.groups.models import Group
+from apps.groups.serializers import GroupSerializer, GroupDetailSerializer
 
 
 class GroupListCreateAPIView(ListCreateAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     filter_backends = (SearchFilter, OrderingFilter)
-    search_group_fields = ['=name']
+    search_fields = ['=name']
 
     def filter_queryset(self, queryset):
         queryset = super(GroupListCreateAPIView, self).filter_queryset(queryset)
@@ -31,9 +28,3 @@ class GroupRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Group.objects.all()
     permission_classes = [IsAuthenticated]
     serializer_class = GroupDetailSerializer
-
-
-class RatingListAPIView(ListCreateAPIView):
-    queryset = Rating.objects.all()
-    permission_classes = [IsAuthenticated]
-    serializer_class = RatingSerializer
